@@ -18,6 +18,8 @@ export default async function BlobList() {
     cursor = result.hasMore ? result.cursor : undefined
   } while (cursor)
 
+  allBlobs.sort((a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime())
+
   return (
     <div className="w-full rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <div className="flex items-center justify-between px-6 py-4">

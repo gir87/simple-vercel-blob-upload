@@ -1,6 +1,6 @@
 # Simple Vercel File Upload
 
-A password-protected web app to upload any file to Vercel Blob Storage and get a shareable public URL back.
+A password-protected web app to upload any file to Vercel Blob Storage and get a shareable public URL back 😎
 
 ## Setup
 

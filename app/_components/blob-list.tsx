@@ -37,7 +37,7 @@ export default async function BlobList() {
           {allBlobs.map(blob => (
             <li key={blob.url} className="flex items-center justify-between gap-4 px-6 py-3">
               <a
-                href={blob.url}
+                href={`/file/${blob.pathname}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="min-w-0 flex-1 truncate font-mono text-sm text-zinc-700 hover:text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-50"

@@ -9,7 +9,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       body,
       request,
       onBeforeGenerateToken: async () => ({
-        addRandomSuffix: true,
+        addRandomSuffix: false,
       }),
       onUploadCompleted: async ({ blob }) => {
         // Only fires in production (Vercel must reach this URL).

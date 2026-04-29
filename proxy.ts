@@ -8,7 +8,7 @@ function tokenFor(passphrase: string): string {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  if (pathname === '/login' || pathname.startsWith('/api/auth')) {
+  if (pathname === '/login' || pathname.startsWith('/api/auth') || pathname.startsWith('/file/')) {
     return NextResponse.next()
   }
 

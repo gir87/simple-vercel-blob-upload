@@ -27,9 +27,16 @@ A password-protected web app to upload any file to Vercel Blob Storage and get a
 
 Open [http://localhost:3000](http://localhost:3000) and enter the passphrase. From there you can:
 
-- **Upload** any file (any type, any size) and get a shareable public URL
-- **Browse** all stored files — each is a clickable link
+- **Upload** any file (any type, any size) and get a shareable friendly URL
+- **Browse** all stored files — each links to `your-domain.com/file/<filename>` for easy sharing
+- **Share** files publicly via `/file/<filename>` — no login required for recipients
 - **Purge** all stored files with the purge button
+
+## Friendly URLs
+
+Every uploaded file is accessible at `/file/<filename>` — for example, uploading `report.pdf` makes it available at `https://your-domain.com/file/report.pdf`, which redirects to the underlying Vercel Blob CDN URL.
+
+These links are publicly accessible (no login required) so they can be shared with anyone. Filenames are used as-is, so uploading a file with the same name will overwrite the previous one.
 
 ## Security
 

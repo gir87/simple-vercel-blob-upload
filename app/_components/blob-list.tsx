@@ -1,5 +1,6 @@
 import { list } from '@vercel/blob'
 import PurgeButton from './purge-button'
+import CopyButton from './copy-button'
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`
@@ -47,6 +48,7 @@ export default async function BlobList() {
               <span className="shrink-0 text-xs text-zinc-400">
                 {formatBytes(blob.size)}
               </span>
+              <CopyButton pathname={blob.pathname} />
             </li>
           ))}
         </ul>

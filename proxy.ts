@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createHash } from 'crypto'
+import { createHash, timingSafeEqual } from 'crypto'
 
 function tokenFor(passphrase: string): string {
   return createHash('sha256').update(passphrase).digest('hex')
+}
+
+function safeEqual(a: string, b: string): boolean {
+  const bufA = Buffer.from(a)
+  const bufB = Buffer.from(b)
+  if (bufA.length !== bufB.length) {
+    timingSafeEqual(bufA, Buffer.alloc(bufA.length))
+    return false
+  }
+  return timingSafeEqual(bufA, bufB)
 }
 
 export function proxy(request: NextRequest) {
@@ -13,9 +23,9 @@ export function proxy(request: NextRequest) {
   }
 
   const expected = tokenFor(process.env.PASSPHRASE ?? '')
-  const token = request.cookies.get('auth_token')?.value
+  const token = request.cookies.get('auth_token')?.value ?? ''
 
-  if (token !== expected) {
+  if (!safeEqual(token, expected)) {
     if (pathname.startsWith('/api/')) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }

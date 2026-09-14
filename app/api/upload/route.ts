@@ -19,8 +19,9 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     return NextResponse.json(jsonResponse);
   } catch (error) {
+    console.error('Upload token exchange failed:', error);
     return NextResponse.json(
-      { error: (error as Error).message },
+      { error: 'Upload failed. Please try again.' },
       { status: 400 },
     );
   }

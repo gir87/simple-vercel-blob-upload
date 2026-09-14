@@ -15,6 +15,34 @@ export default function UploadForm() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [state, setState] = useState<UploadState>({ status: 'idle' });
   const [copied, setCopied] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
+
+  function setFile(file: File | undefined) {
+    if (!file || !inputRef.current) return;
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    inputRef.current.files = dt.files;
+    setFileName(file.name);
+    setState({ status: 'idle' });
+  }
+
+  function handleDragOver(e: React.DragEvent<HTMLLabelElement>) {
+    e.preventDefault();
+    if (state.status !== 'uploading') setDragActive(true);
+  }
+
+  function handleDragLeave(e: React.DragEvent<HTMLLabelElement>) {
+    e.preventDefault();
+    setDragActive(false);
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLLabelElement>) {
+    e.preventDefault();
+    setDragActive(false);
+    if (state.status === 'uploading') return;
+    setFile(e.dataTransfer.files?.[0]);
+  }
 
   async function handleSubmit() {
     const file = inputRef.current?.files?.[0];
@@ -50,6 +78,7 @@ export default function UploadForm() {
   function reset() {
     setState({ status: 'idle' });
     setCopied(false);
+    setFileName(null);
     if (inputRef.current) inputRef.current.value = '';
   }
 
@@ -62,7 +91,16 @@ export default function UploadForm() {
         Upload any file — get a shareable link instantly.
       </p>
 
-      <label className="mb-4 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-zinc-300 bg-zinc-50 px-6 py-10 text-center transition hover:border-zinc-400 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-zinc-500 dark:hover:bg-zinc-700">
+      <label
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        className={`mb-4 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-10 text-center transition ${
+          dragActive
+            ? 'border-zinc-500 bg-zinc-100 dark:border-zinc-400 dark:bg-zinc-700'
+            : 'border-zinc-300 bg-zinc-50 hover:border-zinc-400 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-zinc-500 dark:hover:bg-zinc-700'
+        }`}
+      >
         <svg
           className="mb-3 h-8 w-8 text-zinc-400"
           xmlns="http://www.w3.org/2000/svg"
@@ -78,14 +116,14 @@ export default function UploadForm() {
           />
         </svg>
         <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
-          {inputRef.current?.files?.[0]?.name ?? 'Click to choose a file'}
+          {fileName ?? (dragActive ? 'Drop file to upload' : 'Click or drag a file to upload')}
         </span>
         <span className="mt-1 text-xs text-zinc-400">Any file type · Any size</span>
         <input
           ref={inputRef}
           type="file"
           className="sr-only"
-          onChange={() => setState({ status: 'idle' })}
+          onChange={(e) => setFile(e.target.files?.[0])}
           disabled={state.status === 'uploading'}
         />
       </label>

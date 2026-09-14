@@ -8,7 +8,7 @@ const cspHeader = `
   style-src 'self' 'unsafe-inline';
   img-src 'self' data:;
   font-src 'self';
-  connect-src 'self' https://*.public.blob.vercel-storage.com${isDev ? ' ws://localhost:*' : ''};
+  connect-src 'self' https://vercel.com${isDev ? ' ws://localhost:*' : ''};
   object-src 'none';
   base-uri 'self';
   form-action 'self';

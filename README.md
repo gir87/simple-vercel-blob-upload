@@ -42,8 +42,10 @@ These links are publicly accessible (no login required) so they can be shared wi
 
 - The passphrase is stored server-side only in `PASSPHRASE` — it is never sent to the client or exposed in any response.
 - On successful login, a SHA-256 hash of the passphrase is stored in an `httpOnly` cookie (inaccessible to JavaScript). The cookie is also `secure` in production and `SameSite=Lax`.
-- Every request (pages and API routes) is gated by `proxy.ts`, which recomputes `SHA-256(PASSPHRASE)` and compares it to the cookie value. Changing `PASSPHRASE` immediately invalidates all existing sessions.
+- Every request (pages and API routes) is gated by `proxy.ts`, which recomputes `SHA-256(PASSPHRASE)` and compares it to the cookie value using a timing-safe comparison. Changing `PASSPHRASE` immediately invalidates all existing sessions.
 - Unauthenticated page requests are redirected to `/login`; unauthenticated API requests receive a `401`.
+- `/api/auth` rate-limits failed login attempts (10 per IP per 5-minute window, in-memory/best-effort) to slow down passphrase brute-forcing.
+- Security headers (`Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`) are set on every response via `next.config.ts`.
 
 ## Commands
 

@@ -6,7 +6,7 @@ const cspHeader = `
   default-src 'self';
   script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''};
   style-src 'self' 'unsafe-inline';
-  img-src 'self' data:;
+  img-src 'self' data: https://*.public.blob.vercel-storage.com;
   font-src 'self';
   connect-src 'self' https://vercel.com${isDev ? ' ws://localhost:*' : ''};
   object-src 'none';

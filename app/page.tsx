@@ -23,12 +23,12 @@ function BlobListSkeleton() {
           Stored files
         </h2>
       </div>
-      <ul className="divide-y divide-zinc-100 dark:divide-zinc-800">
+      <ul className="grid grid-cols-3 gap-3 px-6 pb-6">
         {Array.from({ length: 3 }).map((_, i) => (
-          <li key={i} className="flex items-center justify-between gap-4 px-6 py-3">
-            <div className="h-4 w-40 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
+          <li key={i} className="flex flex-col gap-1">
+            <div className="aspect-square animate-pulse rounded-lg bg-zinc-200 dark:bg-zinc-800" />
+            <div className="h-3 w-3/4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
             <div className="h-3 w-10 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
-            <div className="h-6 w-6 animate-pulse rounded-full bg-zinc-200 dark:bg-zinc-800" />
           </li>
         ))}
       </ul>

@@ -42,7 +42,7 @@ Next.js 16 App Router project for uploading files of any type/size to Vercel Blo
 - Both `upload-form.tsx` (on upload completion) and `blob-list.tsx` / `copy-button.tsx` (per row) build this friendly URL client-side as `` `${origin}/file/${pathname.split('/').map(encodeURIComponent).join('/')}` ``, encoding each path segment separately so nested pathnames survive the round trip.
 
 **Blob list / purge:**
-- `app/_components/blob-list.tsx` — async server component; calls `list()` from `@vercel/blob` directly (no API route needed), paginates through all results, sorts newest-first by `uploadedAt`, renders the file list, a per-row `<CopyButton>`, and `<PurgeButton>`
+- `app/_components/blob-list.tsx` — async server component; calls `list()` from `@vercel/blob` directly (no API route needed), paginates through all results, sorts newest-first by `uploadedAt`, renders a 3-column thumbnail grid (plain lazy `<img>` from the Blob CDN URL for `png`/`jpg`/`jpeg`/`webp`; other files get an extension placeholder tile), with filename, size, and a per-tile `<CopyButton>`, plus `<PurgeButton>`. The CDN host is allowed in `img-src` in `next.config.ts`'s CSP
 - `app/_components/copy-button.tsx` — client component; copies a single blob's friendly `/file/...` URL to the clipboard
 - `app/_components/purge-button.tsx` — client component; `DELETE /api/blobs` then `router.refresh()` to re-render the server component tree
 - `app/api/blobs/route.ts` — DELETE handler; pages through all blobs and calls `del()` on all URLs

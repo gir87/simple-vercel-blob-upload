@@ -161,6 +161,15 @@ export default function UploadForm() {
           <p className="mb-3 break-all font-mono text-sm text-zinc-800 dark:text-zinc-200">
             {window.location.origin}/file/{state.pathname.split('/').map(encodeURIComponent).join('/')}
           </p>
+          <p className="mb-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">Original blob URL</p>
+          <a
+            href={state.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-3 block break-all font-mono text-xs text-zinc-600 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+          >
+            {state.url}
+          </a>
           <div className="flex gap-2">
             <button
               onClick={() => state.status === 'done' && copyUrl(`${window.location.origin}/file/${state.pathname.split('/').map(encodeURIComponent).join('/')}`)}

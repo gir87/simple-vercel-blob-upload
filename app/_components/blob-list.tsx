@@ -74,7 +74,18 @@ export default async function BlobList() {
                   </span>
                   <CopyButton pathname={blob.pathname} />
                 </div>
-                <span className="text-xs text-zinc-400">{formatBytes(blob.size)}</span>
+                <div className="flex items-center justify-between gap-1 text-xs text-zinc-400">
+                  <span>{formatBytes(blob.size)}</span>
+                  <a
+                    href={blob.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={blob.url}
+                    className="underline hover:text-zinc-700 dark:hover:text-zinc-200"
+                  >
+                    Blob URL
+                  </a>
+                </div>
               </li>
             )
           })}

@@ -2,11 +2,10 @@
 
 import { useState } from 'react'
 
-export default function CopyButton({ pathname }: { pathname: string }) {
+export default function CopyButton({ url }: { url: string }) {
   const [copied, setCopied] = useState(false)
 
   async function handleCopy() {
-    const url = `${window.location.origin}/file/${pathname.split('/').map(encodeURIComponent).join('/')}`
     await navigator.clipboard.writeText(url)
     setCopied(true)
     setTimeout(() => setCopied(false), 1500)

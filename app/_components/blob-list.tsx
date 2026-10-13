@@ -48,7 +48,7 @@ export default async function BlobList() {
             return (
               <li key={blob.url} className="flex min-w-0 flex-col gap-1">
                 <a
-                  href={`/file/${blob.pathname.split('/').map(encodeURIComponent).join('/')}`}
+                  href={blob.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   title={blob.pathname}
@@ -72,20 +72,9 @@ export default async function BlobList() {
                   <span className="truncate font-mono text-xs text-zinc-700 dark:text-zinc-300" title={blob.pathname}>
                     {blob.pathname}
                   </span>
-                  <CopyButton pathname={blob.pathname} />
+                  <CopyButton url={blob.url} />
                 </div>
-                <div className="flex items-center justify-between gap-1 text-xs text-zinc-400">
-                  <span>{formatBytes(blob.size)}</span>
-                  <a
-                    href={blob.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={blob.url}
-                    className="underline hover:text-zinc-700 dark:hover:text-zinc-200"
-                  >
-                    Blob URL
-                  </a>
-                </div>
+                <span className="text-xs text-zinc-400">{formatBytes(blob.size)}</span>
               </li>
             )
           })}

@@ -7,7 +7,7 @@ import { useRef, useState } from 'react';
 type UploadState =
   | { status: 'idle' }
   | { status: 'uploading'; progress: number }
-  | { status: 'done'; url: string; pathname: string }
+  | { status: 'done'; url: string }
   | { status: 'error'; message: string };
 
 export default function UploadForm() {
@@ -59,7 +59,7 @@ export default function UploadForm() {
           setState({ status: 'uploading', progress: Math.round(percentage) }),
       });
 
-      setState({ status: 'done', url: blob.url, pathname: blob.pathname });
+      setState({ status: 'done', url: blob.url });
       router.refresh();
     } catch (err) {
       setState({
@@ -159,20 +159,11 @@ export default function UploadForm() {
             Upload complete
           </p>
           <p className="mb-3 break-all font-mono text-sm text-zinc-800 dark:text-zinc-200">
-            {window.location.origin}/file/{state.pathname.split('/').map(encodeURIComponent).join('/')}
-          </p>
-          <p className="mb-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">Original blob URL</p>
-          <a
-            href={state.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mb-3 block break-all font-mono text-xs text-zinc-600 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-          >
             {state.url}
-          </a>
+          </p>
           <div className="flex gap-2">
             <button
-              onClick={() => state.status === 'done' && copyUrl(`${window.location.origin}/file/${state.pathname.split('/').map(encodeURIComponent).join('/')}`)}
+              onClick={() => state.status === 'done' && copyUrl(state.url)}
               className="flex-1 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
             >
               {copied ? 'Copied!' : 'Copy URL'}
